@@ -4,11 +4,17 @@ import java.sql.SQLOutput;
 import java.util.*;
 
 public class Main {
+    // Yinwen Jiang
+    // NUID: 002193745
+
 
     public static void main(String[] args) {
 	// write your code here
         int[] nums = {2,0,2,1,1,0};
         System.out.println(Arrays.toString(sortColors(nums)));
+
+        int[] num = {3,2,3};
+        System.out.println(majorityElement(num));
 
         int[] citations = {3,0,6,1,5};
         System.out.println((hIndex(citations)));
@@ -22,6 +28,9 @@ public class Main {
         int x = 3;
         System.out.println(findClosestElements(arr, k, x));
 
+        String str = "aab";
+        System.out.println(reorganizeString(str));
+
         String order = "cba";
         String s = "abcd";
         System.out.println(customSortString(order, s));
@@ -29,9 +38,14 @@ public class Main {
         int[]pancake = {3,2,4,1};
         System.out.println(pancakeSort(pancake));
 
+        int[] freqNums = {1,1,2,2,2,3};
+        System.out.println(Arrays.toString(frequencySort(freqNums)));
+
         String[] words = {"i","love","leetcode","i","love","coding"};
         int topK = 2;
         System.out.println(topKFrequent(words, topK));
+
+
     }
 
     // sortColors
@@ -54,12 +68,50 @@ public class Main {
             }
         }
         return nums;
-
     }
+
+
     private static void swap(int[] nums, int i, int j){
         int temp = nums[i];
         nums[i] = nums[j];
         nums[j] = temp;
+    }
+
+    // majorityElement
+    private static List<Integer> majorityElement(int[] nums) {
+        if (nums == null || nums.length == 0)
+            return new ArrayList<Integer>();
+        List<Integer> result = new ArrayList<Integer>();
+        int num1 = nums[0], num2 = nums[0], count1 = 0, count2 = 0, len = nums.length;
+        for (int i = 0; i < len; i++) {
+            if (nums[i] == num1)
+                count1++;
+            else if (nums[i] == num2)
+                count2++;
+            else if (count1 == 0) {
+                num1 = nums[i];
+                count1 = 1;
+            } else if (count2 == 0) {
+                num2 = nums[i];
+                count2 = 1;
+            } else {
+                count1--;
+                count2--;
+            }
+        }
+        count1 = 0;
+        count2 = 0;
+        for (int i = 0; i < len; i++) {
+            if (nums[i] == num1)
+                count1++;
+            else if (nums[i] == num2)
+                count2++;
+        }
+        if (count1 > len / 3)
+            result.add(num1);
+        if (count2 > len / 3)
+            result.add(num2);
+        return result;
     }
 
     // H-index
@@ -99,7 +151,6 @@ public class Main {
             res[k++] = num;
         }
         return res;
-
     }
 
     // findClosestElements
@@ -116,6 +167,42 @@ public class Main {
         List<Integer> result = new ArrayList<>();
         for (int i = low; i < low + k; i++) result.add(arr[i]);
         return result;
+    }
+
+    // reorganizeString
+    private static String reorganizeString(String s) {
+        Map<Character, Integer> map = new HashMap<>();
+        for (char c : s.toCharArray()) {
+            int count = map.getOrDefault(c, 0) + 1;
+            if (count > (s.length() + 1) / 2)
+                return "";
+            map.put(c, count);
+        }
+
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> b[1] - a[1]);
+
+        for (char c : map.keySet()) {
+            pq.add(new int[] {c, map.get(c)});
+        }
+
+        StringBuilder sb = new StringBuilder();
+        while (!pq.isEmpty()) {
+            int[] first = pq.poll();
+            if (sb.length() == 0 || first[0] != sb.charAt(sb.length() - 1)) {
+                sb.append((char) first[0]);
+                if (--first[1] > 0) {
+                    pq.add(first);
+                }
+            } else {
+                int[] second = pq.poll();
+                sb.append((char) second[0]);
+                if (--second[1] > 0) {
+                    pq.add(second);
+                }
+                pq.add(first);
+            }
+        }
+        return sb.toString();
     }
 
 
@@ -161,6 +248,28 @@ public class Main {
         }
     }
 
+    // frequencySort
+    private static int[] frequencySort(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        List<Map.Entry<Integer, Integer>> list = new ArrayList(map.entrySet());
+        Collections.sort(list, (a,b) -> a.getValue() == b.getValue() ? b.getKey() - a.getKey() : a.getValue() - b.getValue());
+        int index = 0;
+        int[] res = new int[nums.length];
+        for (Map.Entry<Integer, Integer> entry : list) {
+
+            int count = entry.getValue();
+            int key = entry.getKey();
+
+            for (int i=0; i<count; i++) {
+                res[index++] = key;
+            }
+
+        }
+        return res;
+    }
 
     // topKFrequent
     private static List<String> topKFrequent(String[] words, int k) {
@@ -170,7 +279,7 @@ public class Main {
             if (map.containsKey(word)) map.put(word, map.get(word) + 1);
             else map.put(word, 1);
         }
-        PriorityQueue<Map.Entry<String, Integer>> pq = new PriorityQueue<>((a,b) -> Objects.equals(a.getValue(), b.getValue()) ? b.getKey().compareTo(a.getKey()) : (a.getValue() - b.getValue()));
+        PriorityQueue<Map.Entry<String, Integer>> pq = new PriorityQueue<>((a,b) -> a.getValue() == b.getValue() ? b.getKey().compareTo(a.getKey()) : (a.getValue() - b.getValue()));
 
         for(Map.Entry<String, Integer> entry: map.entrySet()){
             pq.offer(entry);
@@ -180,5 +289,7 @@ public class Main {
         while (!pq.isEmpty()) res.add(0, pq.poll().getKey());
         return res;
     }
+
+
 
 }
