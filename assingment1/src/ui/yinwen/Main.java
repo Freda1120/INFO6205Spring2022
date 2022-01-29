@@ -10,37 +10,47 @@ public class Main {
 
     public static void main(String[] args) {
 	// write your code here
+        // 75 Sort Colors
         int[] nums = {2,0,2,1,1,0};
         System.out.println(Arrays.toString(sortColors(nums)));
 
+        // 229 Majority Element II
         int[] num = {3,2,3};
         System.out.println(majorityElement(num));
 
+        // 274 H-Index
         int[] citations = {3,0,6,1,5};
         System.out.println((hIndex(citations)));
 
+        // 349 Intersection of Two Arrays
         int[] nums1 = {1,2,2,1};
         int[] nums2 = {2,2};
         System.out.println(Arrays.toString(intersection(nums1, nums2)));
 
+        // 658 Find K Closest Elements
         int[]arr = {1,2,3,4,5};
         int k = 4;
         int x = 3;
         System.out.println(findClosestElements(arr, k, x));
 
+        // 767 Reorganize String
         String str = "aab";
         System.out.println(reorganizeString(str));
 
+        // 791 Custom Sort String
         String order = "cba";
         String s = "abcd";
         System.out.println(customSortString(order, s));
 
+        // 969 Pancake Sorting
         int[]pancake = {3,2,4,1};
         System.out.println(pancakeSort(pancake));
 
+        // 1636 Sort Array by Increasing Frequency
         int[] freqNums = {1,1,2,2,2,3};
         System.out.println(Arrays.toString(frequencySort(freqNums)));
 
+        // 692 Top K Frequent Words
         String[] words = {"i","love","leetcode","i","love","coding"};
         int topK = 2;
         System.out.println(topKFrequent(words, topK));
@@ -48,7 +58,7 @@ public class Main {
 
     }
 
-    // sortColors
+    // 75 Sort Colors
     private static int[] sortColors(int[] nums) {
         int left = 0;
         int right = nums.length - 1;
@@ -77,7 +87,7 @@ public class Main {
         nums[j] = temp;
     }
 
-    // majorityElement
+    // 229 Majority Element II
     private static List<Integer> majorityElement(int[] nums) {
         if (nums == null || nums.length == 0)
             return new ArrayList<Integer>();
@@ -114,7 +124,7 @@ public class Main {
         return result;
     }
 
-    // H-index
+    // 274 H-Index
     private static int hIndex(int[] citations) {
         Arrays.sort(citations);
         int len = citations.length;
@@ -126,7 +136,7 @@ public class Main {
         return len;
     }
 
-    // intersection
+    // 349 Intersection of Two Arrays
     public static int[] intersection(int[] nums1, int[] nums2) {
         Set<Integer> set = new HashSet<>();
         Arrays.sort(nums1);
@@ -153,7 +163,7 @@ public class Main {
         return res;
     }
 
-    // findClosestElements
+    // 658 Find K Closest Elements
     private static List<Integer> findClosestElements(int[] arr, int k, int x) {
         int low = 0;
         int high = arr.length - k;
@@ -169,7 +179,7 @@ public class Main {
         return result;
     }
 
-    // reorganizeString
+    // 767 Reorganize String
     private static String reorganizeString(String s) {
         Map<Character, Integer> map = new HashMap<>();
         for (char c : s.toCharArray()) {
@@ -206,7 +216,7 @@ public class Main {
     }
 
 
-    // customSortString
+    // 791 Custom Sort String
     private static String customSortString(String order, String s) {
         int[] count = new int[26];
         for(char c: s.toCharArray()){
@@ -228,7 +238,7 @@ public class Main {
     }
 
 
-    // pancakeSort
+    // 969 Pancake Sorting
     private static List<Integer> pancakeSort(int[] arr) {
         List<Integer> res = new ArrayList<>();
         for (int x = arr.length, i; x > 0; x--) {
@@ -248,7 +258,7 @@ public class Main {
         }
     }
 
-    // frequencySort
+    // 1636 Sort Array by Increasing Frequency
     private static int[] frequencySort(int[] nums) {
         Map<Integer, Integer> map = new HashMap<>();
         for (int num : nums) {
@@ -271,7 +281,7 @@ public class Main {
         return res;
     }
 
-    // topKFrequent
+    // 692 Top K Frequent Words
     private static List<String> topKFrequent(String[] words, int k) {
         List<String> res = new LinkedList<>();
         Map<String, Integer> map = new HashMap<>();
@@ -289,7 +299,4 @@ public class Main {
         while (!pq.isEmpty()) res.add(0, pq.poll().getKey());
         return res;
     }
-
-
-
 }
