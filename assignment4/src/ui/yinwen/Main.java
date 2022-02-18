@@ -121,20 +121,16 @@ public class Main {
             }
             p = p.next;
         }
-
         if (l1 != null)
             p.next = l1;
-
         if (l2 != null)
             p.next = l2;
-
         return l.next;
     }
 
 
     // 382. Linked List Random Node
     public class Solution {
-
         ListNode head;
         Random random;
 
@@ -142,9 +138,7 @@ public class Main {
             head = h;
             random = new Random();
         }
-
         public int getRandom() {
-
             ListNode node = head;
             int p = node.val;
             for(int i=1;node.next != null;i++){
@@ -154,7 +148,6 @@ public class Main {
                     p = node.val;
                 }
             }
-
             return p;
         }
     }
@@ -170,14 +163,12 @@ public class Main {
         ListNode leftNode = pre.next;
         ListNode rightNode = leftNode.next;
 
-
         for(int i=0; i<right-left; i++){
             leftNode.next = rightNode.next;
             rightNode.next = pre.next;
             pre.next = rightNode;
             rightNode = leftNode.next;
         }
-
         return dummy.next;
 
     }
