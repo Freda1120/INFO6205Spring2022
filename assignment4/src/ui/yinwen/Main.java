@@ -83,7 +83,23 @@ public class Main {
 
 
     // 2058. Find the Minimum and Maximum Number of Nodes Between Critical Points
-
+    public int[] nodesBetweenCriticalPoints(ListNode head) {
+        int first = Integer.MAX_VALUE, last = 0, prev_val = head.val, min_d = Integer.MAX_VALUE;
+        for (int i = 0; head.next != null; ++i) {
+            if ((prev_val < head.val && head.val > head.next.val) ||
+                    (prev_val > head.val && head.val < head.next.val)) {
+                if (last != 0)
+                    min_d = Math.min(min_d, i - last);
+                first = Math.min(first, i);
+                last = i;
+            }
+            prev_val = head.val;
+            head = head.next;
+        }
+        if (min_d == Integer.MAX_VALUE)
+            return new int[] {-1, -1};
+        return new int[] {min_d, last - first};
+    }
 
 
     // 148. Sort List
