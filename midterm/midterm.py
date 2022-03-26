@@ -62,13 +62,3 @@ class Solution4:
         return res
 
 
-def constructTree(preorder, inorder):
-        if not preorder and not inorder:
-            return None
-        node_val = preorder[0]
-        node = TreeNode(node_val)
-        idx = inorder.index(node_val)
-        node.left = constructTree(preorder[1: idx+1], inorder[:idx])
-        node.right = constructTree(preorder[idx+1:], inorder[idx+1:])    
-        return node
-    
